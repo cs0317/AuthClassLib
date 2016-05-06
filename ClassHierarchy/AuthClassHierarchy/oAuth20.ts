@@ -58,7 +58,7 @@ export class AuthorizationCodeEntry extends GenericAuth.ID_Claim
     code: string;
     userID_on_AS: string;
     redirect_uri: string;
-    get Redir_dest(): string { return this.redirect_uri; }
+    get Redir_dest(): string { return this.redirect_uri; } 
     scope: string;
     state: string;
 }
