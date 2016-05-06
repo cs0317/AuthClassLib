@@ -2,11 +2,6 @@
     export class CST_MSG {
         SymT: string = "";
         SignedBy: string = "";
-        constructor(SymT: string, SignedBy: string) {
-            this.SymT = SymT;
-            this.SignedBy = SignedBy;
-        }
-
     }
 
     export class Debug {
