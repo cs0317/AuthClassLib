@@ -39,6 +39,7 @@
     <Content Include="README.md" />
     <TypeScriptCompile Include="AuthClassHierarchy\CST.ts" />
     <TypeScriptCompile Include="AuthClassHierarchy\GenericAuth.ts" />
+    <TypeScriptCompile Include="AuthClassHierarchy\OAuth20.ts" />
     <TypeScriptCompile Include="Scripts\typings\node\node.d.ts" />
   </ItemGroup>
   <ItemGroup>

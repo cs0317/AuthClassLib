@@ -4,7 +4,7 @@
 /*               Messages between parties                  */
 /***********************************************************/
 export abstract class SignInIdP_Req extends CST.CST_MSG {
-    public IdPSessionSecret: string;
+    IdPSessionSecret: string;
     get Realm(): string { throw new TypeError("getRealm is not implemented");  };
     set Realm(value: string) { throw new TypeError("setRealm is not implemented"); };
 }
@@ -37,7 +37,7 @@ export interface IdPAuthRecords_Base {
 /***********************************************************/
 
 export abstract class AS {
-    public IdentityRecords: IdPAuthRecords_Base ;
+    IdentityRecords: IdPAuthRecords_Base ;
     
     SignInIdP(req: SignInIdP_Req ): SignInIdP_Resp_SignInRP_Req  {
         GlobalObjects_base.SignInIdP_Req = req;
@@ -49,8 +49,8 @@ export abstract class AS {
         return this.Redir(_ID_Claim.Redir_dest, _ID_Claim);
     }
 
-    public abstract Process_SignInIdP_req(req: SignInIdP_Req ): ID_Claim ;
-    public abstract Redir(dest:string , _ID_Claim: ID_Claim ): SignInIdP_Resp_SignInRP_Req ;
+    abstract Process_SignInIdP_req(req: SignInIdP_Req ): ID_Claim ;
+    abstract Redir(dest:string , _ID_Claim: ID_Claim ): SignInIdP_Resp_SignInRP_Req ;
 }
 
 export class AuthenticationConclusion extends CST.CST_MSG {
