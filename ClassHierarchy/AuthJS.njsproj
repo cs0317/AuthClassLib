@@ -34,9 +34,9 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="AuthClassHierarchy\app.ts" />
     <Content Include="package.json" />
     <Content Include="README.md" />
+    <TypeScriptCompile Include="AuthClassHierarchy\app.ts" />
     <TypeScriptCompile Include="AuthClassHierarchy\CST.ts" />
     <TypeScriptCompile Include="AuthClassHierarchy\GenericAuth.ts" />
     <TypeScriptCompile Include="AuthClassHierarchy\OAuth20.ts" />

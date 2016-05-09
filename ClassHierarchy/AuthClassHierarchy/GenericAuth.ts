@@ -58,8 +58,10 @@ export class AuthenticationConclusion extends CST.CST_MSG {
 }
 
 export abstract class RP {
-    Domain: string;
-    Realm: string;
+    get Domain(): string { throw new TypeError("getDomain is not implemented"); };
+    set Domain(value: string) { throw new TypeError("setDomain is not implemented"); };
+    get Realm(): string { throw new TypeError("getRealm is not implemented"); };
+    set Realm(value: string) { throw new TypeError("setRealm is not implemented"); };
     public abstract SignInRP(req: SignInIdP_Resp_SignInRP_Req ): SignInRP_Resp;
     public AuthenticationDone(conclusion: AuthenticationConclusion ):boolean {
       //  bool CST_verified = CST_Ops.Certify(conclusion);
