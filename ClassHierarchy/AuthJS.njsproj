@@ -41,12 +41,14 @@
     <TypeScriptCompile Include="AuthClassHierarchy\CST.ts" />
     <TypeScriptCompile Include="AuthClassHierarchy\GenericAuth.ts" />
     <TypeScriptCompile Include="AuthClassHierarchy\OAuth20.ts" />
+    <TypeScriptCompile Include="Common\communication.ts" />
     <TypeScriptCompile Include="Scripts\typings\node\node.d.ts" />
     <TypeScriptCompile Include="ServiceProviders\Facebook\Facebook.ts" />
     <TypeScriptCompile Include="ServiceProviders\Facebook\index.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AuthClassHierarchy\" />
+    <Folder Include="Common\" />
     <Folder Include="ServiceProviders\" />
     <Folder Include="Scripts\" />
     <Folder Include="Scripts\typings\" />
