@@ -1,4 +1,6 @@
-﻿import CST = require("./CST");
+﻿var Step = require('../../../Auth.JS/node_modules/step');
+var request = require("../../../Auth.JS/node_modules/request");
+import CST = require("./CST");
 import GenericAuth = require("./GenericAuth");
 
 /***********************************************************/
@@ -20,6 +22,15 @@ export class AuthorizationResponse extends GenericAuth.SignInIdP_Resp_SignInRP_R
 {
      code: string ;
      state: string = null;
+     constructor(srcObj?) {
+         super();
+         if (srcObj != null) {
+             this.code = srcObj.code;
+             this.state = srcObj.state;
+             this.SymT = srcObj.SymT;
+             this.SignedBy = srcObj.SignedBy;
+         }
+     }
 }
 
 export class AuthorizationErrorResponse extends GenericAuth.SignInIdP_Resp_SignInRP_Req
@@ -36,6 +47,7 @@ export class AccessTokenRequest
     code: string;
     redirect_uri: string;
     client_id: string;
+    client_secret: string;
     refresh_token: string = null;
 }
 
@@ -47,6 +59,10 @@ export class AccessTokenResponse
     client_id: string;
     refresh_token: string = null;
     scope: string = null;
+}
+
+export class LoginResponse extends GenericAuth.SignInRP_Resp {
+    status: string;
 }
 
 /***********************************************************/
@@ -100,17 +116,62 @@ export abstract class Client extends GenericAuth.RP
     get Realm() { return this.client_id; }
     set Realm(value: string) { this.client_id = value; };
     client_secret: string;
-    TokenEndpointUrl:string;
+    TokenEndpointUrl: string;
+    AuthorizationEndpointUrl: string;
     return_uri: string;
     get Domain() { return this.return_uri; }
     set Domain(value: string) { this.return_uri = value; };
-    constructor(client_id1?: string, return_uri1?: string, client_secret1?: string, TokenEndpointUrl1?: string) {
+    constructor(client_id1?: string, return_uri1?: string, client_secret1?: string, AuthorizationEndpointUrl1?: string, TokenEndpointUrl1?: string) {
         super();
         this.client_id = client_id1; 
         this.return_uri = return_uri1;
         this.client_secret = client_secret1;
-        this.TokenEndpointUrl = TokenEndpointUrl1
-    }      
+        this.AuthorizationEndpointUrl = AuthorizationEndpointUrl1
+        this.TokenEndpointUrl = TokenEndpointUrl1;
+    }  
+
+    /*** Four methods about AuthorizationRequest ***/
+    abstract parseForCreateAuthorizationRequest(req): CST.CST_MSG;
+    abstract createAuthorizationRequest(inputMSG: CST.CST_MSG): AuthorizationRequest;
+    _createAuthorizationRequest(inputMSG: CST.CST_MSG): AuthorizationRequest {
+        //CST_Ops.recordme();
+        return this.createAuthorizationRequest(inputMSG);
+    }
+    abstract marshalForCreateAuthorizationRequest(_AuthorizationRequest: AuthorizationRequest);
+    
+    /*** Four methods about AccessTokenRequest ***/
+    abstract parseForCreateAccessTokenRequest(req): CST.CST_MSG;
+    abstract createAccessTokenRequest(inputMSG: CST.CST_MSG): AccessTokenRequest;
+    _createAccessTokenRequest(inputMSG: CST.CST_MSG): AccessTokenRequest {
+        //CST_Ops.recordme();
+        return this.createAccessTokenRequest(inputMSG);
+    }
+    abstract marshalForCreateAccessTokenRequest(_AccessTokenRequest: AccessTokenRequest);
+
+
+     /*************** Start defining OAuth flows ************************/
+    AuthorizationCodeFlow_Login_Start(req, res) {
+        var inputMSG: CST.CST_MSG = this.parseForCreateAuthorizationRequest(req);
+        var _AuthorizationRequest = this._createAuthorizationRequest(inputMSG);
+        var rawReq = this.marshalForCreateAuthorizationRequest(_AuthorizationRequest);
+        res.redirect(rawReq);
+    }
+    AuthorizationCodeFlow_Login_Callback(req, res) {
+        var self = this;
+        Step(
+            function () {
+                var inputMSG: CST.CST_MSG = self.parseForCreateAccessTokenRequest(req);
+                if (inputMSG == null) {
+                    return res.send('login-error ' + req.query.error_description);
+                } 
+                var _AccessTokenRequest = self._createAccessTokenRequest(inputMSG);
+                var rawReq = self.marshalForCreateAccessTokenRequest(_AccessTokenRequest);
+                request(rawReq, this);
+            },
+            function (err, RawAccessTokenResponse) {
+            }
+        )
+    }
 }
 
 export abstract class AuthorizationServer extends GenericAuth.AS

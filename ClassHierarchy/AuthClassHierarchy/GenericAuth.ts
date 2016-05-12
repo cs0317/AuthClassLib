@@ -62,7 +62,6 @@ export abstract class RP {
     set Domain(value: string) { throw new TypeError("setDomain is not implemented"); };
     get Realm(): string { throw new TypeError("getRealm is not implemented"); };
     set Realm(value: string) { throw new TypeError("setRealm is not implemented"); };
-    public abstract SignInRP(req: SignInIdP_Resp_SignInRP_Req ): SignInRP_Resp;
     public AuthenticationDone(conclusion: AuthenticationConclusion ):boolean {
       //  bool CST_verified = CST_Ops.Certify(conclusion);
 /*
@@ -90,13 +89,4 @@ export class GlobalObjects_base {
                                     this.RP.Realm);
        // Contract.Assert(ID_claim.Redir_dest == this.RP.Domain && ID_claim.UserID == conclusion.SessionUID);
     }
-}
-
-
-//==========================================
-export class M1 extends SignInIdP_Req {
-    IdPSessionSecret: string;
-    get Realm(): string { return "M2"; };
-    set Realm(value: string) { console.log(value); };
-  //  constructor() { super(); };
 }

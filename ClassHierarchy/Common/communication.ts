@@ -1,14 +1,18 @@
-﻿exports.redirect = function (method: string, Url, req, res, request, fields) {
-    var args: string = "?";
+﻿exports.makeQueryString = function (request, fields) {
+    var args: string = "";
+    for (var i = 0; i < fields.length; i++) {
+        if (i != 0)
+            args += "&";
+        args += (fields[i] + "=" + request[fields[i]]);
+    }
+    return encodeURI(args);
+}
+
+exports.redirect = function (method: string, Url, res, request, fields) {
+    fields.push("SymT", "SignedBy");
     switch (method.toLowerCase()) {
         case "get":
-            for (var i = 0; i < fields.length; i++) {
-                if (i != 0)
-                     args += "&";
-                args += (fields[i] + "=" + request[fields[i]]);
-            }
-            args = encodeURI(args);
-            res.redirect(Url + args);
+            res.redirect(Url + "?" + this.makeQueryString(request, fields));
             break;
         case "post":
             break;
@@ -16,5 +20,8 @@
             console.log("Unsupported HTTP method.");
             return;
     }
-};
+}
+
+
+
 
