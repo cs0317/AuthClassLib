@@ -34,8 +34,24 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="ASPX_setup.cmd" />
     <Content Include="config.json" />
+    <Content Include="images\Facebook_login.png" />
+    <Content Include="images\Microsoft.jpg" />
+    <Content Include="images\sign_out.jpg" />
     <Content Include="package.json" />
+    <Content Include="platforms\aspx\AllInOne.aspx" />
+    <Content Include="platforms\aspx\buttons\Facebook_login_button.inc" />
+    <Content Include="platforms\aspx\buttons\sign_out_button.inc" />
+    <Content Include="platforms\aspx\CreateNewSession.aspx" />
+    <Content Include="platforms\aspx\Web.config" />
+    <Content Include="platforms\php\CreateNewSession.php" />
+    <Content Include="platforms\php\README.md" />
+    <Content Include="platforms\php\views\index.php" />
+    <Content Include="platforms\python\config.py" />
+    <Content Include="platforms\python\CreateNewSession.py" />
+    <Content Include="platforms\python\README.md" />
+    <Content Include="platforms\python\templates\index.html" />
     <Content Include="README.md" />
     <TypeScriptCompile Include="AuthClassHierarchy\app.ts" />
     <TypeScriptCompile Include="AuthClassHierarchy\CST.ts" />
@@ -49,6 +65,15 @@
   <ItemGroup>
     <Folder Include="AuthClassHierarchy\" />
     <Folder Include="Common\" />
+    <Folder Include="images\" />
+    <Folder Include="includes\" />
+    <Folder Include="platforms\" />
+    <Folder Include="platforms\aspx\" />
+    <Folder Include="platforms\aspx\buttons\" />
+    <Folder Include="platforms\php\" />
+    <Folder Include="platforms\php\views\" />
+    <Folder Include="platforms\python\" />
+    <Folder Include="platforms\python\templates\" />
     <Folder Include="ServiceProviders\" />
     <Folder Include="Scripts\" />
     <Folder Include="Scripts\typings\" />
@@ -57,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="config.js" />
+    <Compile Include="includes\utils.js" />
     <Compile Include="main.js" />
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->

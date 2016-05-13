@@ -1,4 +1,4 @@
-﻿var request = require("../../../Auth.JS/node_modules/request");
+﻿var request = require("request");
 var config = require('../config');
 
 exports.makeQueryString = function (request, fields) {
@@ -25,20 +25,13 @@ exports.redirect = function (method: string, Url, res, request, fields) {
     }
 }
 
-/*
-{
-                UserID: conclusion.id,
-                FullName: conclusion.name,
-                email: conclusion.email
-            }
-*/
 exports.AbandonAndCreateSession = function (conclusion,req,res) {
     request({
-        url: 'http://localhost/Auth.JS/' + config.WebAppSettings.platform.name + '/CreateNewSession.' + config.WebAppSettings.platform.fileExtension,
+        url: 'http://localhost/Auth.JS/platforms/' + config.WebAppSettings.platform.name + '/CreateNewSession.' + config.WebAppSettings.platform.fileExtension,
         method: 'POST'
     }, function (error, response, body) {
         request({
-            url: 'http://localhost/Auth.JS/' + config.WebAppSettings.platform.name + '/CreateNewSession.' + config.WebAppSettings.platform.fileExtension,
+            url: 'http://localhost/Auth.JS/platforms/' + config.WebAppSettings.platform.name + '/CreateNewSession.' + config.WebAppSettings.platform.fileExtension,
             method: 'POST',
             form: conclusion
         }, function (error, response, body) {

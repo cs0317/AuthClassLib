@@ -1,5 +1,5 @@
-﻿var Step = require('../../../Auth.JS/node_modules/step');
-var request = require("../../../Auth.JS/node_modules/request");
+﻿var Step = require('step');
+var request = require("request");
 var communication = require("../Common/communication");
 import CST = require("./CST");
 import GenericAuth = require("./GenericAuth");

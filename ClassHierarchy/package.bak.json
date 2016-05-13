@@ -1,0 +1,10 @@
+{
+  "name": "class-hierarchy",
+  "version": "0.0.0",
+  "description": "ClassHierarchy",
+  "main": "main.js",
+  "author": {
+    "name": "shuo",
+    "email": ""
+  }
+}
