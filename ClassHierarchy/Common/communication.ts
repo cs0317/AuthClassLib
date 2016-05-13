@@ -1,4 +1,7 @@
-﻿exports.makeQueryString = function (request, fields) {
+﻿var request = require("../../../Auth.JS/node_modules/request");
+var config = require('../config');
+
+exports.makeQueryString = function (request, fields) {
     var args: string = "";
     for (var i = 0; i < fields.length; i++) {
         if (i != 0)
@@ -20,6 +23,34 @@ exports.redirect = function (method: string, Url, res, request, fields) {
             console.log("Unsupported HTTP method.");
             return;
     }
+}
+
+/*
+{
+                UserID: conclusion.id,
+                FullName: conclusion.name,
+                email: conclusion.email
+            }
+*/
+exports.AbandonAndCreateSession = function (conclusion,req,res) {
+    request({
+        url: 'http://localhost/Auth.JS/' + config.WebAppSettings.platform.name + '/CreateNewSession.' + config.WebAppSettings.platform.fileExtension,
+        method: 'POST'
+    }, function (error, response, body) {
+        request({
+            url: 'http://localhost/Auth.JS/' + config.WebAppSettings.platform.name + '/CreateNewSession.' + config.WebAppSettings.platform.fileExtension,
+            method: 'POST',
+            form: conclusion
+        }, function (error, response, body) {
+            if (error) {
+                console.log(error);
+            } else {
+                var setcookie = response.headers["set-cookie"];
+                res.setHeader('Set-Cookie', setcookie);
+                return res.redirect(req.cookies["LoginPageUrl"]);
+            }
+        });
+    });
 }
 
 

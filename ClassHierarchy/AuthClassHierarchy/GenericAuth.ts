@@ -54,7 +54,7 @@ export abstract class AS {
 }
 
 export class AuthenticationConclusion extends CST.CST_MSG {
-      SessionUID: string;
+    UserID: string;
 }
 
 export abstract class RP {
@@ -62,7 +62,7 @@ export abstract class RP {
     set Domain(value: string) { throw new TypeError("setDomain is not implemented"); };
     get Realm(): string { throw new TypeError("getRealm is not implemented"); };
     set Realm(value: string) { throw new TypeError("setRealm is not implemented"); };
-    public AuthenticationDone(conclusion: AuthenticationConclusion ):boolean {
+    public AuthenticationDone(conclusion: AuthenticationConclusion): boolean {
       //  bool CST_verified = CST_Ops.Certify(conclusion);
 /*
         if (CurrentSession["UserID"] != null)

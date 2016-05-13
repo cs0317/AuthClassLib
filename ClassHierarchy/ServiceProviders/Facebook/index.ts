@@ -6,7 +6,8 @@ var RP = new Facebook.Facebook_RP(
             config.rootUrl + 'callback/Facebook',
             config.AppRegistration.Facebook.appSecret,
             "https://www.facebook.com/v2.0/dialog/oauth",
-            "https://graph.facebook.com/v2.3/oauth/access_token"
+            "https://graph.facebook.com/v2.3/oauth/access_token",
+            "https://graph.facebook.com/v2.5/me"
         );
 exports.setRoutes = function (app) {
     app.get('/login/Facebook', function (req, res) {

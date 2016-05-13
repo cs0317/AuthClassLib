@@ -9,9 +9,18 @@ class DebugTokenRequest {
 export class FBAuthorizationRequest extends OAuth20.AuthorizationRequest {
     type: string;
 }
-
+export class FBAuthConclusion extends GenericAuth.AuthenticationConclusion {
+    Email: string;
+    FullName: string;
+    FB_ID: string
+}
 export class Facebook_RP extends OAuth20.Client {
- 
+    UserProfileUrl: string;
+    constructor(client_id1?: string, return_uri1?: string, client_secret1?: string, AuthorizationEndpointUrl1?: string, TokenEndpointUrl1?: string, UserProfileUrl1?: string) {
+        super(client_id1, return_uri1, client_secret1, AuthorizationEndpointUrl1, TokenEndpointUrl1);
+        this.UserProfileUrl = UserProfileUrl1;
+    }
+
     /*** implementing the three methods for AuthorizationRequest ***/
     parseForCreateAuthorizationRequest(req): CST.CST_MSG {
         return null;
@@ -50,11 +59,44 @@ export class Facebook_RP extends OAuth20.Client {
     }
 
     marshalForCreateAccessTokenRequest(_AccessTokenRequest: OAuth20.AccessTokenRequest) {
-        var RawAccessTokenRequestUrl = this.TokenEndpointUrl + "?client_id=" + _AccessTokenRequest.client_id + "&redirect_uri=" + _AccessTokenRequest.redirect_uri
+        var RawRequestUrl = this.TokenEndpointUrl + "?client_id=" + _AccessTokenRequest.client_id + "&redirect_uri=" + _AccessTokenRequest.redirect_uri
             + "&client_secret=" + _AccessTokenRequest.client_secret + "&code=" + _AccessTokenRequest.code;
         return ({
-            url: RawAccessTokenRequestUrl,
+            url: RawRequestUrl,
             method: "get"
         });
+   }
+
+    /*** implementing the three methods for UserProfileRequest ***/
+    parseForCreateUserProfileRequest(_raw): CST.CST_MSG {
+        var raw = JSON.parse(_raw.body);
+        var obj: OAuth20.AccessTokenResponse = new OAuth20.AccessTokenResponse(raw); 
+        return obj;
+    }
+
+    createUserProfileRequest(inputMSG: CST.CST_MSG): OAuth20.UserProfileRequest {
+        var _UserProfileRequest: OAuth20.UserProfileRequest = new OAuth20.UserProfileRequest();
+        _UserProfileRequest.access_token = (<OAuth20.AccessTokenResponse>inputMSG).access_token;
+        _UserProfileRequest.fields = 'name,email';
+        return _UserProfileRequest;
+    }
+
+    marshalForCreateUserProfileRequest(_UserProfileRequest: OAuth20.UserProfileRequest) {
+        var RawRequestUrl = this.UserProfileUrl + "?access_token=" + _UserProfileRequest.access_token
+            + "&fields=" + _UserProfileRequest.fields;
+        return ({
+            url: RawRequestUrl,
+            method: "get"
+        });
+    }
+
+    parseAndCreateConclusion(_raw): GenericAuth.AuthenticationConclusion {
+        var raw = JSON.parse(_raw.body);
+        var _FBAuthConclusion = new FBAuthConclusion();
+        _FBAuthConclusion.UserID = raw.id;
+        _FBAuthConclusion.Email = raw.email;
+        _FBAuthConclusion.FB_ID = raw.id;
+        _FBAuthConclusion.FullName = raw.name;
+        return _FBAuthConclusion;
     }
 }

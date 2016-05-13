@@ -1,5 +1,6 @@
 ﻿var Step = require('../../../Auth.JS/node_modules/step');
 var request = require("../../../Auth.JS/node_modules/request");
+var communication = require("../Common/communication");
 import CST = require("./CST");
 import GenericAuth = require("./GenericAuth");
 
@@ -41,7 +42,7 @@ export class AuthorizationErrorResponse extends GenericAuth.SignInIdP_Resp_SignI
      protected state: string = null;
 }
 
-export class AccessTokenRequest
+export class AccessTokenRequest extends CST.CST_MSG
 {
     grant_type: string;
     code: string;
@@ -51,16 +52,30 @@ export class AccessTokenRequest
     refresh_token: string = null;
 }
 
-export class AccessTokenResponse
+export class AccessTokenResponse extends CST.CST_MSG
 {
     access_token: string;  
     token_type: string;
     expires_in: string;
-    client_id: string;
     refresh_token: string = null;
-    scope: string = null;
+    constructor(srcObj?) {
+        super();
+        if (srcObj != null) {
+            this.access_token = srcObj.access_token;
+            this.token_type = srcObj.token_type;
+            this.expires_in = srcObj.expires_in;
+            this.refresh_token = srcObj.refresh_token;
+            this.SymT = srcObj.SymT;
+            this.SignedBy = srcObj.SignedBy;
+        }
+    }
 }
 
+export class UserProfileRequest extends CST.CST_MSG
+{
+    fields: string;
+    access_token: string;
+}
 export class LoginResponse extends GenericAuth.SignInRP_Resp {
     status: string;
 }
@@ -134,8 +149,9 @@ export abstract class Client extends GenericAuth.RP
     abstract parseForCreateAuthorizationRequest(req): CST.CST_MSG;
     abstract createAuthorizationRequest(inputMSG: CST.CST_MSG): AuthorizationRequest;
     _createAuthorizationRequest(inputMSG: CST.CST_MSG): AuthorizationRequest {
+        var outputMSG = this.createAuthorizationRequest(inputMSG);
         //CST_Ops.recordme();
-        return this.createAuthorizationRequest(inputMSG);
+        return outputMSG;
     }
     abstract marshalForCreateAuthorizationRequest(_AuthorizationRequest: AuthorizationRequest);
     
@@ -143,11 +159,24 @@ export abstract class Client extends GenericAuth.RP
     abstract parseForCreateAccessTokenRequest(req): CST.CST_MSG;
     abstract createAccessTokenRequest(inputMSG: CST.CST_MSG): AccessTokenRequest;
     _createAccessTokenRequest(inputMSG: CST.CST_MSG): AccessTokenRequest {
+        var outputMSG = this.createAccessTokenRequest(inputMSG);
         //CST_Ops.recordme();
-        return this.createAccessTokenRequest(inputMSG);
+        return outputMSG;
     }
     abstract marshalForCreateAccessTokenRequest(_AccessTokenRequest: AccessTokenRequest);
 
+    /*** Four methods about UserProfileRequest ***/
+    abstract parseForCreateUserProfileRequest(req): CST.CST_MSG;
+    abstract createUserProfileRequest(inputMSG: CST.CST_MSG): UserProfileRequest;
+    _createUserProfileRequest(inputMSG: CST.CST_MSG): UserProfileRequest {       
+        var outputMSG = this.createUserProfileRequest(inputMSG);
+        //CST_Ops.recordme();
+        return outputMSG;
+    }
+    abstract marshalForCreateUserProfileRequest(_UserProfileRequest: UserProfileRequest);
+
+    /*** Methods about Conclusion ***/
+    abstract parseAndCreateConclusion(req): GenericAuth.AuthenticationConclusion;
 
      /*************** Start defining OAuth flows ************************/
     AuthorizationCodeFlow_Login_Start(req, res) {
@@ -162,13 +191,24 @@ export abstract class Client extends GenericAuth.RP
             function () {
                 var inputMSG: CST.CST_MSG = self.parseForCreateAccessTokenRequest(req);
                 if (inputMSG == null) {
-                    return res.send('login-error ' + req.query.error_description);
+                    return res.send('login-error ' + ':invalid authorization code');
                 } 
                 var _AccessTokenRequest = self._createAccessTokenRequest(inputMSG);
                 var rawReq = self.marshalForCreateAccessTokenRequest(_AccessTokenRequest);
                 request(rawReq, this);
             },
             function (err, RawAccessTokenResponse) {
+                var inputMSG: CST.CST_MSG = self.parseForCreateUserProfileRequest(RawAccessTokenResponse);
+                if (inputMSG == null) {
+                    return res.send('login-error ' + ':invalid access token');
+                } 
+                var _UserProfileRequest = self._createUserProfileRequest(inputMSG);
+                var rawReq = self.marshalForCreateUserProfileRequest(_UserProfileRequest);
+                request(rawReq, this);
+            },
+            function (err, RawUserProfileResponse) {
+                var conclusion = self.parseAndCreateConclusion(RawUserProfileResponse);
+                communication.AbandonAndCreateSession(conclusion, req, res);
             }
         )
     }
@@ -245,7 +285,6 @@ export abstract class AuthorizationServer extends GenericAuth.AS
 
             resp.access_token = AccessTokenEntry.access_token;
             resp.refresh_token = AccessTokenEntry.refresh_token;
-            resp.scope = AccessTokenEntry.scope;
             return resp;
         case "refresh_token":
             IdPSessionSecret = this.AccessTokenRecs.findISSByClientIDAndRefreshToken(req.client_id, req.refresh_token);
@@ -257,7 +296,6 @@ export abstract class AuthorizationServer extends GenericAuth.AS
                 return null;
             resp.access_token = AccessTokenEntry.access_token;
             resp.refresh_token = AccessTokenEntry.refresh_token;
-            resp.scope = AccessTokenEntry.scope;
             return resp;
         default:
             return null;
