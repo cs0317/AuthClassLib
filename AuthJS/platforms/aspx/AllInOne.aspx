@@ -17,7 +17,7 @@
 <body>
 
 <%@ Page Language="C#" %>
-<script src="\Auth.JS\includes\utils.js"></script>
+
 <script>
   function copyToClipboard(str1,str2) {
     window.prompt("This is the ASP.NET code of the button.\nCopy to clipboard: Ctrl+C, Enter.\n", str1+"<% =System.Configuration.ConfigurationManager.AppSettings["AuthJS_AspxStub_AbsoluteWebRoot"]%>"+str2);
