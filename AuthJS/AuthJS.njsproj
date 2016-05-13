@@ -58,7 +58,6 @@
     <TypeScriptCompile Include="AuthClassHierarchy\GenericAuth.ts" />
     <TypeScriptCompile Include="AuthClassHierarchy\OAuth20.ts" />
     <TypeScriptCompile Include="Common\communication.ts" />
-    <TypeScriptCompile Include="Scripts\typings\node\node.d.ts" />
     <TypeScriptCompile Include="ServiceProviders\Facebook\Facebook.ts" />
     <TypeScriptCompile Include="ServiceProviders\Facebook\index.ts" />
   </ItemGroup>
@@ -75,9 +74,6 @@
     <Folder Include="platforms\python\" />
     <Folder Include="platforms\python\templates\" />
     <Folder Include="ServiceProviders\" />
-    <Folder Include="Scripts\" />
-    <Folder Include="Scripts\typings\" />
-    <Folder Include="Scripts\typings\node\" />
     <Folder Include="ServiceProviders\Facebook\" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,4 @@
-﻿var express = require('../../Auth.JS/node_modules/express');
+﻿var express = require('express');
 var AuthJS = express(),
     path = require('path'),
     http = require('http'),
