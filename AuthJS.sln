@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "AuthJS", "AuthJS\AuthJS.njsproj", "{ACCBFC3C-FD22-417B-9A1F-60970E1DAE5C}"
-EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "AuthJS-1", "AuthJS-1\AuthJS-1.njsproj", "{8ECCFB28-ACA6-48FA-89C5-7E01DA055989}"
 EndProject
 Global
@@ -13,10 +11,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{ACCBFC3C-FD22-417B-9A1F-60970E1DAE5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ACCBFC3C-FD22-417B-9A1F-60970E1DAE5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ACCBFC3C-FD22-417B-9A1F-60970E1DAE5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ACCBFC3C-FD22-417B-9A1F-60970E1DAE5C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8ECCFB28-ACA6-48FA-89C5-7E01DA055989}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8ECCFB28-ACA6-48FA-89C5-7E01DA055989}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8ECCFB28-ACA6-48FA-89C5-7E01DA055989}.Release|Any CPU.ActiveCfg = Release|Any CPU
