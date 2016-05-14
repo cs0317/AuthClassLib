@@ -1,5 +1,6 @@
 ﻿var request = require("request");
 var config = require('../config');
+import CST = require('../AuthClassHierarchy/CST');
 
 exports.makeQueryString = function (request, fields) {
     var args: string = "";
@@ -25,6 +26,23 @@ exports.redirect = function (method: string, Url, res, request, fields) {
     }
 }
 
+exports.parseHttpMessage=function(_raw)
+{
+    var raw = null;
+    if (typeof (_raw.method) != "undefined" && _raw.method != null) {
+        if (_raw.method.toLowerCase() == "get") {
+            raw = _raw.query;
+        }
+    }
+    else if (typeof(_raw.body) !="undefined" && _raw.body!=null) {
+        raw = JSON.parse(_raw.body);
+    }    
+    if (typeof(raw.SymT) == "undefined" || raw.SymT == null)
+        raw.SymT = "";
+    if (typeof (raw.SignedBy) == "undefined" || raw.SignedBy == null)
+        raw.SignedBy = "";
+    return <CST.CST_MSG>raw;
+}
 exports.AbandonAndCreateSession = function (conclusion,req,res) {
     request({
         url: 'http://localhost/Auth.JS/platforms/' + config.WebAppSettings.platform.name + '/CreateNewSession.' + config.WebAppSettings.platform.fileExtension,

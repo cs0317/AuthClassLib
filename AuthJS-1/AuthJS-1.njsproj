@@ -55,7 +55,7 @@
     <TypeScriptCompile Include="AuthClassHierarchy\CST.ts" />
     <TypeScriptCompile Include="AuthClassHierarchy\GenericAuth.ts" />
     <TypeScriptCompile Include="AuthClassHierarchy\OAuth20.ts" />
-    <TypeScriptCompile Include="Common\communication.ts" />
+    <TypeScriptCompile Include="Common\utils.ts" />
     <TypeScriptCompile Include="Scripts\typings\node\node.d.ts" />
     <TypeScriptCompile Include="ServiceProviders\Facebook\Facebook.ts" />
     <TypeScriptCompile Include="ServiceProviders\Facebook\index.ts" />

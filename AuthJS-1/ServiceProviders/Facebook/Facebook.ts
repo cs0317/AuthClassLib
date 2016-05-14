@@ -1,5 +1,5 @@
 ﻿var config = require('../../config.js');
-var communication = require("../../Common/communication");
+var utils = require("../../Common/utils");
 import OAuth20 = require("../../AuthClassHierarchy/OAuth20");
 import CST = require("../../AuthClassHierarchy/CST");
 import GenericAuth = require("../../AuthClassHierarchy/GenericAuth");
@@ -14,6 +14,11 @@ export class FBAuthConclusion extends GenericAuth.AuthenticationConclusion {
     FullName: string;
     FB_ID: string
 }
+export class FBUserProfileResponse extends OAuth20.UserProfileResponse {
+    id: string;
+    name: string;
+    email: string;
+}
 export class Facebook_RP extends OAuth20.Client {
     UserProfileUrl: string;
     constructor(client_id1?: string, return_uri1?: string, client_secret1?: string, AuthorizationEndpointUrl1?: string, TokenEndpointUrl1?: string, UserProfileUrl1?: string) {
@@ -21,11 +26,8 @@ export class Facebook_RP extends OAuth20.Client {
         this.UserProfileUrl = UserProfileUrl1;
     }
 
-    /*** implementing the three methods for AuthorizationRequest ***/
-    parseForCreateAuthorizationRequest(req): CST.CST_MSG {
-        return null;
-    }
-    public createAuthorizationRequest(): OAuth20.AuthorizationRequest {
+    /*** implementing the methods for AuthorizationRequest ***/
+    public createAuthorizationRequest(inputMSG: CST.CST_MSG): OAuth20.AuthorizationRequest {
         var _FBAuthorizationRequest: FBAuthorizationRequest = new FBAuthorizationRequest();
         _FBAuthorizationRequest.client_id = this.client_id;
         _FBAuthorizationRequest.response_type = "code";
@@ -34,21 +36,12 @@ export class Facebook_RP extends OAuth20.Client {
         _FBAuthorizationRequest.type = "web_server";
         return _FBAuthorizationRequest;
     }
-    public marshalForCreateAuthorizationRequest(_FBAuthorizationRequest: OAuth20.AuthorizationRequest){  
+    public marshalCreateAuthorizationRequest(_FBAuthorizationRequest: OAuth20.AuthorizationRequest){  
         return this.AuthorizationEndpointUrl + "?" +
-            communication.makeQueryString(_FBAuthorizationRequest, ["client_id", "redirect_uri", "scope", "response_type", "type", "SymT", "SignedBy"]);
+            utils.makeQueryString(_FBAuthorizationRequest, ["client_id", "redirect_uri", "scope", "response_type", "type", "SymT", "SignedBy"]);
     }
 
-    /*** implementing the three methods for AccessTokenRequest ***/
-   parseForCreateAccessTokenRequest(req): CST.CST_MSG {
-        if (req.query.error) {
-            // user might have disallowed the app
-            return null;
-        }
-        var inputMSG: OAuth20.AuthorizationResponse = new OAuth20.AuthorizationResponse(req.query);
-        return inputMSG;
-    }
-
+    /*** implementing the methods for AccessTokenRequest ***/
    createAccessTokenRequest(inputMSG: CST.CST_MSG): OAuth20.AccessTokenRequest {
         var _AccessTokenRequest: OAuth20.AccessTokenRequest = new OAuth20.AccessTokenRequest();
         _AccessTokenRequest.client_id = this.client_id;
@@ -58,7 +51,7 @@ export class Facebook_RP extends OAuth20.Client {
         return _AccessTokenRequest;
     }
 
-    marshalForCreateAccessTokenRequest(_AccessTokenRequest: OAuth20.AccessTokenRequest) {
+    marshalCreateAccessTokenRequest(_AccessTokenRequest: OAuth20.AccessTokenRequest) {
         var RawRequestUrl = this.TokenEndpointUrl + "?client_id=" + _AccessTokenRequest.client_id + "&redirect_uri=" + _AccessTokenRequest.redirect_uri
             + "&client_secret=" + _AccessTokenRequest.client_secret + "&code=" + _AccessTokenRequest.code;
         return ({
@@ -67,13 +60,7 @@ export class Facebook_RP extends OAuth20.Client {
         });
    }
 
-    /*** implementing the three methods for UserProfileRequest ***/
-    parseForCreateUserProfileRequest(_raw): CST.CST_MSG {
-        var raw = JSON.parse(_raw.body);
-        var obj: OAuth20.AccessTokenResponse = new OAuth20.AccessTokenResponse(raw); 
-        return obj;
-    }
-
+    /*** implementing the methods for UserProfileRequest ***/
     createUserProfileRequest(inputMSG: CST.CST_MSG): OAuth20.UserProfileRequest {
         var _UserProfileRequest: OAuth20.UserProfileRequest = new OAuth20.UserProfileRequest();
         _UserProfileRequest.access_token = (<OAuth20.AccessTokenResponse>inputMSG).access_token;
@@ -81,7 +68,7 @@ export class Facebook_RP extends OAuth20.Client {
         return _UserProfileRequest;
     }
 
-    marshalForCreateUserProfileRequest(_UserProfileRequest: OAuth20.UserProfileRequest) {
+    marshalCreateUserProfileRequest(_UserProfileRequest: OAuth20.UserProfileRequest) {
         var RawRequestUrl = this.UserProfileUrl + "?access_token=" + _UserProfileRequest.access_token
             + "&fields=" + _UserProfileRequest.fields;
         return ({
@@ -90,13 +77,13 @@ export class Facebook_RP extends OAuth20.Client {
         });
     }
 
-    parseAndCreateConclusion(_raw): GenericAuth.AuthenticationConclusion {
-        var raw = JSON.parse(_raw.body);
+    /*** implementing the methods for AuthenticationConclusion ***/
+    createConclusion(inputMSG: CST.CST_MSG): GenericAuth.AuthenticationConclusion {
         var _FBAuthConclusion = new FBAuthConclusion();
-        _FBAuthConclusion.UserID = raw.id;
-        _FBAuthConclusion.Email = raw.email;
-        _FBAuthConclusion.FB_ID = raw.id;
-        _FBAuthConclusion.FullName = raw.name;
+        _FBAuthConclusion.UserID = (<FBUserProfileResponse>inputMSG).id;
+        _FBAuthConclusion.Email = (<FBUserProfileResponse>inputMSG).email;
+        _FBAuthConclusion.FB_ID = (<FBUserProfileResponse>inputMSG).id;
+        _FBAuthConclusion.FullName = (<FBUserProfileResponse>inputMSG).name;
         return _FBAuthConclusion;
     }
 }

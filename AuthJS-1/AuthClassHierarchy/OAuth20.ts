@@ -1,6 +1,6 @@
 ﻿var Step = require('step');
 var request = require("request");
-var communication = require("../Common/communication");
+var utils = require("../Common/utils");
 import CST = require("./CST");
 import GenericAuth = require("./GenericAuth");
 
@@ -76,6 +76,8 @@ export class UserProfileRequest extends CST.CST_MSG
     fields: string;
     access_token: string;
 }
+export class UserProfileResponse extends CST.CST_MSG {
+}
 export class LoginResponse extends GenericAuth.SignInRP_Resp {
     status: string;
 }
@@ -145,70 +147,73 @@ export abstract class Client extends GenericAuth.RP
         this.TokenEndpointUrl = TokenEndpointUrl1;
     }  
 
-    /*** Four methods about AuthorizationRequest ***/
-    abstract parseForCreateAuthorizationRequest(req): CST.CST_MSG;
+    /*** Methods about AuthorizationRequest ***/
     abstract createAuthorizationRequest(inputMSG: CST.CST_MSG): AuthorizationRequest;
     _createAuthorizationRequest(inputMSG: CST.CST_MSG): AuthorizationRequest {
         var outputMSG = this.createAuthorizationRequest(inputMSG);
         //CST_Ops.recordme();
         return outputMSG;
     }
-    abstract marshalForCreateAuthorizationRequest(_AuthorizationRequest: AuthorizationRequest);
+    abstract marshalCreateAuthorizationRequest(_AuthorizationRequest: AuthorizationRequest);
     
-    /*** Four methods about AccessTokenRequest ***/
-    abstract parseForCreateAccessTokenRequest(req): CST.CST_MSG;
+    /*** Methods about AccessTokenRequest ***/
     abstract createAccessTokenRequest(inputMSG: CST.CST_MSG): AccessTokenRequest;
     _createAccessTokenRequest(inputMSG: CST.CST_MSG): AccessTokenRequest {
         var outputMSG = this.createAccessTokenRequest(inputMSG);
         //CST_Ops.recordme();
         return outputMSG;
     }
-    abstract marshalForCreateAccessTokenRequest(_AccessTokenRequest: AccessTokenRequest);
+    abstract marshalCreateAccessTokenRequest(_AccessTokenRequest: AccessTokenRequest);
 
-    /*** Four methods about UserProfileRequest ***/
-    abstract parseForCreateUserProfileRequest(req): CST.CST_MSG;
+    /*** Methods about UserProfileRequest ***/
     abstract createUserProfileRequest(inputMSG: CST.CST_MSG): UserProfileRequest;
     _createUserProfileRequest(inputMSG: CST.CST_MSG): UserProfileRequest {       
         var outputMSG = this.createUserProfileRequest(inputMSG);
         //CST_Ops.recordme();
         return outputMSG;
     }
-    abstract marshalForCreateUserProfileRequest(_UserProfileRequest: UserProfileRequest);
+    abstract marshalCreateUserProfileRequest(_UserProfileRequest: UserProfileRequest);
 
     /*** Methods about Conclusion ***/
-    abstract parseAndCreateConclusion(req): GenericAuth.AuthenticationConclusion;
+    abstract createConclusion(inputMSG: CST.CST_MSG): GenericAuth.AuthenticationConclusion;
+    _createConclusion(inputMSG: CST.CST_MSG): GenericAuth.AuthenticationConclusion {
+        var outputMSG = this.createConclusion(inputMSG);
+        //CST_Ops.recordme();
+        return outputMSG;
+    }
 
      /*************** Start defining OAuth flows ************************/
     AuthorizationCodeFlow_Login_Start(req, res) {
-        var inputMSG: CST.CST_MSG = this.parseForCreateAuthorizationRequest(req);
+        var inputMSG: CST.CST_MSG = utils.parseHttpMessage(req);
         var _AuthorizationRequest = this._createAuthorizationRequest(inputMSG);
-        var rawReq = this.marshalForCreateAuthorizationRequest(_AuthorizationRequest);
+        var rawReq = this.marshalCreateAuthorizationRequest(_AuthorizationRequest);
         res.redirect(rawReq);
     }
     AuthorizationCodeFlow_Login_Callback(req, res) {
         var self = this;
         Step(
             function () {
-                var inputMSG: CST.CST_MSG = self.parseForCreateAccessTokenRequest(req);
+                let inputMSG: CST.CST_MSG = utils.parseHttpMessage(req);
                 if (inputMSG == null) {
                     return res.send('login-error ' + ':invalid authorization code');
                 } 
                 var _AccessTokenRequest = self._createAccessTokenRequest(inputMSG);
-                var rawReq = self.marshalForCreateAccessTokenRequest(_AccessTokenRequest);
+                var rawReq = self.marshalCreateAccessTokenRequest(_AccessTokenRequest);
                 request(rawReq, this);
             },
             function (err, RawAccessTokenResponse) {
-                var inputMSG: CST.CST_MSG = self.parseForCreateUserProfileRequest(RawAccessTokenResponse);
+                let inputMSG: CST.CST_MSG = utils.parseHttpMessage(RawAccessTokenResponse);
                 if (inputMSG == null) {
                     return res.send('login-error ' + ':invalid access token');
                 } 
                 var _UserProfileRequest = self._createUserProfileRequest(inputMSG);
-                var rawReq = self.marshalForCreateUserProfileRequest(_UserProfileRequest);
+                var rawReq = self.marshalCreateUserProfileRequest(_UserProfileRequest);
                 request(rawReq, this);
             },
             function (err, RawUserProfileResponse) {
-                var conclusion = self.parseAndCreateConclusion(RawUserProfileResponse);
-                communication.AbandonAndCreateSession(conclusion, req, res);
+                let inputMSG: CST.CST_MSG = utils.parseHttpMessage(RawUserProfileResponse);
+                var conclusion = self.createConclusion(inputMSG);
+                utils.AbandonAndCreateSession(conclusion, req, res);
             }
         )
     }
