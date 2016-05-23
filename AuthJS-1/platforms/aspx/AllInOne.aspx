@@ -27,6 +27,7 @@
 <div id="grad1">
 <!-- #include virtual = "/Auth.JS/platforms/aspx\buttons\sign_out_button.inc" -->
 <!-- #include virtual = "/Auth.JS/platforms/aspx\buttons\Facebook_login_button.inc" -->
+<!-- #include virtual = "/Auth.JS/platforms/aspx\buttons\Microsoft_login_button.inc" -->
 </div>
 
 <h3>First, test this page:<br /></h3>

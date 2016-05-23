@@ -9,7 +9,8 @@
   "express": "3.1.0",
   "ejs": "*",
   "step": "0.0.5",
-  "request": "2.71.0"
+  "request": "2.71.0",
+  "json-web-token": "2.0.2"
   }
 }
 

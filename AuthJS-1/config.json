@@ -1,7 +1,7 @@
 {
   "__SECTION_1__": "This section configures the web server.",
   "WebAppSettings": {
-    "hostname": "a.local.com",
+    "hostname": "a.local.test",
     "scheme": "http",
     "port": "80",
     "platform": {
@@ -15,7 +15,7 @@
   },
 
   "SessionIDCookieProperties": {
-    "domain": "*.a.local.com",
+    "domain": "*.a.local.test",
     "persistent": "no"
   },
 
@@ -24,6 +24,10 @@
     "Facebook": {
       "appId": "460545824136907",
       "appSecret": "ef3bd2f183e07b694645c94afbc1549b"
+    },
+    "Microsoft": {
+      "clientId": "000000004418D51C",
+      "clientSecret": "LdngRmwoVTfcQXU4HvEkb9c"
     }
   },
 

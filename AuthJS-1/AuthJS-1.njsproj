@@ -5,6 +5,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <Name>AuthJS-1</Name>
     <RootNamespace>AuthJS-1</RootNamespace>
+    <NodejsPort>3000</NodejsPort>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -35,11 +36,11 @@
   <ItemGroup>
     <Content Include="config.json" />
     <Content Include="images\Facebook_login.png" />
-    <Content Include="images\Microsoft.jpg" />
     <Content Include="images\sign_out.jpg" />
     <Content Include="package.json" />
     <Content Include="platforms\aspx\AllInOne.aspx" />
     <Content Include="platforms\aspx\buttons\Facebook_login_button.inc" />
+    <Content Include="platforms\aspx\buttons\Microsoft_login_button.inc" />
     <Content Include="platforms\aspx\buttons\sign_out_button.inc" />
     <Content Include="platforms\aspx\CreateNewSession.aspx" />
     <Content Include="platforms\aspx\Web.config" />
@@ -59,6 +60,8 @@
     <TypeScriptCompile Include="Scripts\typings\node\node.d.ts" />
     <TypeScriptCompile Include="ServiceProviders\Facebook\Facebook.ts" />
     <TypeScriptCompile Include="ServiceProviders\Facebook\index.ts" />
+    <TypeScriptCompile Include="ServiceProviders\Microsoft\index.ts" />
+    <TypeScriptCompile Include="ServiceProviders\Microsoft\Microsoft.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AuthClassHierarchy\" />
@@ -76,6 +79,7 @@
     <Folder Include="Scripts\typings\node\" />
     <Folder Include="ServiceProviders\" />
     <Folder Include="ServiceProviders\Facebook\" />
+    <Folder Include="ServiceProviders\Microsoft\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="config.js" />

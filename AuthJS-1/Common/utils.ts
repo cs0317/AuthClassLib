@@ -34,8 +34,13 @@ exports.parseHttpMessage=function(_raw)
             raw = _raw.query;
         }
     }
-    else if (typeof(_raw.body) !="undefined" && _raw.body!=null) {
-        raw = JSON.parse(_raw.body);
+    if (raw==null && typeof(_raw.body) !="undefined" && _raw.body!=null) {
+        try {
+            raw = JSON.parse(_raw.body);
+        }
+        catch (err ){
+            raw = _raw.body;
+        }
     }    
     if (typeof(raw.SymT) == "undefined" || raw.SymT == null)
         raw.SymT = "";
@@ -43,7 +48,11 @@ exports.parseHttpMessage=function(_raw)
         raw.SignedBy = "";
     return <CST.CST_MSG>raw;
 }
-exports.AbandonAndCreateSession = function (conclusion,req,res) {
+exports.AbandonAndCreateSession = function (conclusion, req, res) {
+    console.log("Email=" + conclusion.Email);
+    console.log("Full name=" + conclusion.FullName);
+    //return;
+ 
     request({
         url: 'http://localhost/Auth.JS/platforms/' + config.WebAppSettings.platform.name + '/CreateNewSession.' + config.WebAppSettings.platform.fileExtension,
         method: 'POST'
@@ -62,6 +71,7 @@ exports.AbandonAndCreateSession = function (conclusion,req,res) {
             }
         });
     });
+
 }
 
 
