@@ -38,8 +38,8 @@ for (var sp in config.AppRegistration) {
 
 if (config.AuthJSSettings.scheme == "https") {
     var options = {
-        key: fs.readFileSync('platforms/ssl-cert/key.pem'),
-        cert: fs.readFileSync('platforms/ssl-cert/cert.pem')
+        key: fs.readFileSync('ssl-cert/key.pem'),
+        cert: fs.readFileSync('ssl-cert/cert.pem')
     };
     https.createServer(options, AuthJS).listen(AuthJS.get('port'), function () {
         console.log("Express server listening on port " + AuthJS.get('port'));

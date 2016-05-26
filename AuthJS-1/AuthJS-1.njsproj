@@ -37,6 +37,7 @@
   <ItemGroup>
     <Content Include="config.json" />
     <Content Include="images\Facebook_login.png" />
+    <Content Include="images\Microsoft_login.jpg" />
     <Content Include="images\sign_out.jpg" />
     <Content Include="package.json" />
     <Content Include="platforms\aspx\AllInOne.aspx" />
@@ -52,9 +53,9 @@
     <Content Include="platforms\python\CreateNewSession.py" />
     <Content Include="platforms\python\README.md" />
     <Content Include="platforms\python\templates\index.html" />
-    <Content Include="platforms\ssl-cert\cert.pem" />
-    <Content Include="platforms\ssl-cert\key.pem" />
     <Content Include="README.md" />
+    <Content Include="ssl-cert\cert.pem" />
+    <Content Include="ssl-cert\key.pem" />
     <TypeScriptCompile Include="AuthClassHierarchy\app.ts" />
     <TypeScriptCompile Include="AuthClassHierarchy\CST.ts" />
     <TypeScriptCompile Include="AuthClassHierarchy\GenericAuth.ts" />
@@ -77,13 +78,13 @@
     <Folder Include="platforms\php\views\" />
     <Folder Include="platforms\python\" />
     <Folder Include="platforms\python\templates\" />
-    <Folder Include="platforms\ssl-cert\" />
     <Folder Include="Scripts\" />
     <Folder Include="Scripts\typings\" />
     <Folder Include="Scripts\typings\node\" />
     <Folder Include="ServiceProviders\" />
     <Folder Include="ServiceProviders\Facebook\" />
     <Folder Include="ServiceProviders\Microsoft\" />
+    <Folder Include="ssl-cert\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="config.js" />
