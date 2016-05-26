@@ -11,11 +11,12 @@
   },
 
   "AuthJSSettings": {
+    "scheme": "https",
     "port": "3000"
   },
 
   "SessionIDCookieProperties": {
-    "domain": "*.a.local.test",
+    "domain": "a.local.test",
     "persistent": "no"
   },
 

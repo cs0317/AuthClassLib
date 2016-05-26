@@ -6,6 +6,7 @@
     <Name>AuthJS-1</Name>
     <RootNamespace>AuthJS-1</RootNamespace>
     <NodejsPort>3000</NodejsPort>
+    <LaunchUrl>https://localhost:3000</LaunchUrl>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -51,6 +52,8 @@
     <Content Include="platforms\python\CreateNewSession.py" />
     <Content Include="platforms\python\README.md" />
     <Content Include="platforms\python\templates\index.html" />
+    <Content Include="platforms\ssl-cert\cert.pem" />
+    <Content Include="platforms\ssl-cert\key.pem" />
     <Content Include="README.md" />
     <TypeScriptCompile Include="AuthClassHierarchy\app.ts" />
     <TypeScriptCompile Include="AuthClassHierarchy\CST.ts" />
@@ -74,6 +77,7 @@
     <Folder Include="platforms\php\views\" />
     <Folder Include="platforms\python\" />
     <Folder Include="platforms\python\templates\" />
+    <Folder Include="platforms\ssl-cert\" />
     <Folder Include="Scripts\" />
     <Folder Include="Scripts\typings\" />
     <Folder Include="Scripts\typings\node\" />

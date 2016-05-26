@@ -2,6 +2,7 @@
 var AuthJS = express(),
     path = require('path'),
     http = require('http'),
+    https = require('https'),
     fs = require('fs');
 
 var config = require('./config'); 
@@ -35,6 +36,17 @@ for (var sp in config.AppRegistration) {
     service_provider.setRoutes(AuthJS);
 }
 
-http.createServer(AuthJS).listen(AuthJS.get('port'), function () {
-    console.log("Express server listening on port " + AuthJS.get('port'));
-});
+if (config.AuthJSSettings.scheme == "https") {
+    var options = {
+        key: fs.readFileSync('platforms/ssl-cert/key.pem'),
+        cert: fs.readFileSync('platforms/ssl-cert/cert.pem')
+    };
+    https.createServer(options, AuthJS).listen(AuthJS.get('port'), function () {
+        console.log("Express server listening on port " + AuthJS.get('port'));
+    });
+}
+else {
+    http.createServer(AuthJS).listen(AuthJS.get('port'), function () {
+        console.log("Express server listening on port " + AuthJS.get('port'));
+    });
+}
