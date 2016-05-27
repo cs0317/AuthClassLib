@@ -1,17 +1,19 @@
 {
-  "name": "Auth.JS",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "start": "node main"
-  },
-  "dependencies": {
-  "express": "3.1.0",
-  "ejs": "*",
-  "step": "0.0.5",
-  "request": "2.71.0",
-  "json-web-token": "2.0.2"
-  }
+    "name": "Auth.JS",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "start": "node main"
+    },
+    "dependencies": {
+        "express": "3.1.0",
+        "ejs": "*",
+        "step": "0.0.5",
+        "request": "2.71.0",
+        "json-web-token": "2.0.2",
+        "stacktrace-js": "1.1.3",
+        "ts-type-info": "3.1.1"
+    }
 }
 
 
