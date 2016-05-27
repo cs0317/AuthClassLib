@@ -56,24 +56,17 @@
     <Content Include="README.md" />
     <Content Include="Scripts\typings\globals\node\index.d.ts.metadata" />
     <Content Include="Scripts\typings\globals\node\typings.json" />
-    <Content Include="Scripts\typings\globals\stacktrace-js\index.d.ts.metadata" />
-    <Content Include="Scripts\typings\globals\stacktrace-js\typings.json" />
     <Content Include="Scripts\typings\index.d.ts.metadata" />
-    <Content Include="Scripts\typings\modules\ts-type-info\index.d.ts.metadata" />
-    <Content Include="Scripts\typings\modules\ts-type-info\typings.json" />
     <Content Include="ssl-cert\cert.pem" />
     <Content Include="ssl-cert\key.pem" />
     <TypeScriptCompile Include="AuthClassHierarchy\app.ts" />
     <TypeScriptCompile Include="AuthClassHierarchy\CST.ts" />
-    <TypeScriptCompile Include="AuthClassHierarchy\CST_Ops.ts" />
+    <None Include="AuthClassHierarchy\CST_Ops.ts" />
     <TypeScriptCompile Include="AuthClassHierarchy\GenericAuth.ts" />
-    <TypeScriptCompile Include="AuthClassHierarchy\Message.ts" />
+    <None Include="AuthClassHierarchy\Message.ts" />
     <TypeScriptCompile Include="AuthClassHierarchy\OAuth20.ts" />
     <TypeScriptCompile Include="Common\utils.ts" />
     <TypeScriptCompile Include="Scripts\typings\globals\node\index.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\globals\stacktrace-js\index.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\index.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\modules\ts-type-info\index.d.ts" />
     <TypeScriptCompile Include="ServiceProviders\Facebook\Facebook.ts" />
     <TypeScriptCompile Include="ServiceProviders\Facebook\index.ts" />
     <TypeScriptCompile Include="ServiceProviders\Microsoft\index.ts" />
@@ -94,9 +87,6 @@
     <Folder Include="Scripts\typings\" />
     <Folder Include="Scripts\typings\globals\" />
     <Folder Include="Scripts\typings\globals\node\" />
-    <Folder Include="Scripts\typings\globals\stacktrace-js\" />
-    <Folder Include="Scripts\typings\modules\" />
-    <Folder Include="Scripts\typings\modules\ts-type-info\" />
     <Folder Include="Scripts\typings\node\" />
     <Folder Include="ServiceProviders\" />
     <Folder Include="ServiceProviders\Facebook\" />
@@ -109,7 +99,7 @@
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <TypeScriptTarget>ES6</TypeScriptTarget>
+    <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
     <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
     <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
