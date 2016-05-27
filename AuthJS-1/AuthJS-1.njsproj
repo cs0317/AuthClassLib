@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
@@ -58,12 +58,12 @@
     <Content Include="ssl-cert\key.pem" />
     <TypeScriptCompile Include="AuthClassHierarchy\app.ts" />
     <TypeScriptCompile Include="AuthClassHierarchy\CST.ts" />
+    <None Include="AuthClassHierarchy\CST_Ops.ts" />
     <TypeScriptCompile Include="AuthClassHierarchy\GenericAuth.ts" />
+    <None Include="AuthClassHierarchy\Message.ts" />
     <TypeScriptCompile Include="AuthClassHierarchy\OAuth20.ts" />
     <TypeScriptCompile Include="Common\utils.ts" />
     <TypeScriptCompile Include="Scripts\typings\node\node.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\stacktrace-js\stacktrace-js.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\ts-type-info\ts-type-info.d.ts" />
     <TypeScriptCompile Include="ServiceProviders\Facebook\Facebook.ts" />
     <TypeScriptCompile Include="ServiceProviders\Facebook\index.ts" />
     <TypeScriptCompile Include="ServiceProviders\Microsoft\index.ts" />
