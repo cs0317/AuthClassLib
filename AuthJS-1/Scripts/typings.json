@@ -1,0 +1,8 @@
+{
+    "globalDependencies": {
+        "stacktrace-js": "registry:dt/stacktrace-js#0.0.0+20160317120654"
+    },
+    "dependencies": {
+        "ts-type-info": "github:dsherret/ts-type-info#3.1.1"
+    }
+}

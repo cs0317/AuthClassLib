@@ -1,0 +1,11 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/dsherret/ts-type-info/3.1.1/typings.json",
+    "raw": "github:dsherret/ts-type-info#3.1.1",
+    "main": "ts-type-info.d.ts",
+    "global": false,
+    "name": "ts-type-info",
+    "type": "typings"
+  }
+}
